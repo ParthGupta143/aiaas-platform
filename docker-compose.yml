@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: aiaas-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: aiaas
+      POSTGRES_PASSWORD: aiaas_dev_password
+      POSTGRES_DB: aiaas
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: aiaas-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  mock-ml:
+    build: ./mock-ml-service
+    container_name: aiaas-mock-ml
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+
+  backend:
+    build: ./backend
+    container_name: aiaas-backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+      - mock-ml
+    volumes:
+      - ./backend:/app
+
+volumes:
+  postgres_data:
