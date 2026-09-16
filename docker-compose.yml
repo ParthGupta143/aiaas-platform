@@ -22,7 +22,7 @@ services:
       - "6379:6379"
 
   mock-ml:
-    build: ./mock-ml-service
+    build: ./mock-ml-services
     container_name: aiaas-mock-ml
     restart: unless-stopped
     ports:
