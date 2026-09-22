@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: aiaas_dev_password
       POSTGRES_DB: aiaas
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -31,6 +31,8 @@ services:
   backend:
     build: ./backend
     container_name: aiaas-backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://aiaas:aiaas_dev_password@postgres:5432/aiaas
     restart: unless-stopped
     env_file:
       - .env
@@ -42,6 +44,20 @@ services:
       - mock-ml
     volumes:
       - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    container_name: aiaas-frontend
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
 
 volumes:
   postgres_data:
