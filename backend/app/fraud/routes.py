@@ -8,6 +8,8 @@ from app.middleware.rate_limit import check_rate_limit
 from app.schemas.fraud import FraudCheckRequest, FraudCheckResponse
 from app.client.ml_client import predict_fraud, FraudPredictionInput, MLServiceError
 from app.models import ApiKey, RequestLog
+from app.auth.dependencies import get_current_user
+from app.models import User
 
 router = APIRouter(prefix="/fraud", tags=["fraud"])
 
@@ -55,5 +57,30 @@ async def check_fraud(
         model_version=model_version, status_code=status_code, latency_ms=latency_ms,
     ))
     await db.commit()
+
+    return FraudCheckResponse(**result)
+
+# ... existing imports and /predict route stay unchanged above ...
+
+
+@router.post("/test", response_model=FraudCheckResponse)
+async def test_fraud(
+    payload: FraudCheckRequest,
+    current_user: User = Depends(get_current_user),
+):
+    request_id = str(uuid.uuid4())
+    try:
+        result = await predict_fraud(
+            FraudPredictionInput(
+                amount=payload.amount,
+                transaction_hour=payload.transaction_hour,
+                merchant_category=payload.merchant_category,
+                customer_age=payload.customer_age,
+                previous_transactions=payload.previous_transactions,
+            ),
+            request_id=request_id,
+        )
+    except MLServiceError as e:
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(e))
 
     return FraudCheckResponse(**result)
