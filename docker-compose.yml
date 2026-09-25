@@ -33,6 +33,7 @@ services:
     container_name: aiaas-backend
     environment:
       DATABASE_URL: postgresql+asyncpg://aiaas:aiaas_dev_password@postgres:5432/aiaas
+      PYTHONPATH: /app
     restart: unless-stopped
     env_file:
       - .env
