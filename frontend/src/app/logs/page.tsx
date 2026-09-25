@@ -44,9 +44,9 @@ export default function LogsPage() {
       <h1 className="text-2xl font-semibold mb-6">Request Logs</h1>
 
       {error && <p className="text-red-600">{error}</p>}
-      {!error && data === null && <p className="text-gray-500">Loading...</p>}
+      {!error && data === null && <p className="text-muted">Loading...</p>}
 
-      {data && data.items.length === 0 && <p className="text-gray-500">No requests logged yet.</p>}
+      {data && data.items.length === 0 && <p className="text-muted">No requests logged yet.</p>}
 
       {data && data.items.length > 0 && (
         <>
@@ -66,8 +66,8 @@ export default function LogsPage() {
                   <td className="py-2">{log.service}</td>
                   <td className="py-2"><StatusPill code={log.status_code} /></td>
                   <td className="py-2">{log.latency_ms.toFixed(1)} ms</td>
-                  <td className="py-2 text-gray-500">{log.model_version ?? "—"}</td>
-                  <td className="py-2 text-gray-500">{new Date(log.created_at).toLocaleString()}</td>
+                  <td className="py-2 text-value">{log.model_version ?? "—"}</td>
+                  <td className="py-2 text-muted">{new Date(log.created_at).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
@@ -81,7 +81,7 @@ export default function LogsPage() {
             >
               Previous
             </button>
-            <span className="text-gray-500">
+            <span className="text-muted">
               Page {page} of {totalPages}
             </span>
             <button

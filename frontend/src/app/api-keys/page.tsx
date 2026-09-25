@@ -103,9 +103,9 @@ export default function ApiKeysPage() {
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
-      {keys === null && !error && <p className="text-gray-500">Loading...</p>}
+      {keys === null && !error && <p className="text-muted">Loading...</p>}
 
-      {keys && keys.length === 0 && <p className="text-gray-500">No API keys yet.</p>}
+      {keys && keys.length === 0 && <p className="text-muted">No API keys yet.</p>}
 
       {keys && keys.length > 0 && (
         <table className="w-full text-sm border-collapse">
@@ -124,11 +124,11 @@ export default function ApiKeysPage() {
                 <td className="py-2">{key.name}</td>
                 <td className="py-2 font-mono text-xs">{key.key_prefix}...</td>
                 <td className="py-2">
-                  <span className={key.status === "active" ? "text-green-700" : "text-gray-400"}>
+                  <span className={key.status === "active" ? "text-green-700" : "text-muted"}>
                     {key.status}
                   </span>
                 </td>
-                <td className="py-2 text-gray-500">
+                <td className="py-2 text-value">
                   {new Date(key.created_at).toLocaleDateString()}
                 </td>
                 <td className="py-2">

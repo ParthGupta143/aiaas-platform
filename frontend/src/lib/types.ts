@@ -60,3 +60,18 @@ export interface FraudCheckResponse {
   top_risk_factors: string[];
   request_id: string;
 }
+
+
+export interface BillingServiceLine {
+  service_slug: string;
+  service_name: string;
+  requests_used: number;
+  price_per_request: number;
+  estimated_cost: number;
+}
+
+export interface BillingSummary {
+  period: string;
+  lines: BillingServiceLine[];
+  total_estimated_cost: number;
+}

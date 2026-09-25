@@ -10,8 +10,10 @@ const NAV_ITEMS = [
   { href: "/api-keys", label: "API Keys" },
   { href: "/usage", label: "Usage" },
   { href: "/logs", label: "Logs" },
+  { href: "/billing", label: "Billing" },
   { href: "/settings", label: "Settings" },
 ];
+
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth();

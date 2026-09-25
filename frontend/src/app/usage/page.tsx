@@ -9,7 +9,7 @@ import { UsageStats } from "@/lib/types";
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="border rounded-lg p-4 bg-white">
-      <p className="text-xs text-gray-500 mb-1">{label}</p>
+      <p className="text-xs text-label mb-1">{label}</p>
       <p className="text-2xl font-semibold">{value}</p>
     </div>
   );

@@ -39,10 +39,10 @@ export default function SettingsPage() {
 
       <div className="max-w-md space-y-8">
         <div className="border rounded-lg p-4 bg-white">
-          <h2 className="font-medium mb-3">Account</h2>
-          <p className="text-sm text-gray-600">Email: {user?.email}</p>
-          <p className="text-sm text-gray-600">Role: {user?.role}</p>
-          <p className="text-sm text-gray-600">Organization ID: {user?.org_id}</p>
+          <h2 className="font-medium mb-3 text-value">Account</h2>
+          <p className="text-sm text-label">Email: <span className="text-value">{user?.email}</span></p>
+          <p className="text-sm text-label">Role: <span className="text-value">{user?.role}</span></p>
+          <p className="text-sm text-label">Organization ID: <span className="text-value">{user?.org_id}</span></p>
         </div>
 
         <form onSubmit={handleSubmit} className="border rounded-lg p-4 bg-white space-y-4">

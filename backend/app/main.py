@@ -6,6 +6,7 @@ from app.api_keys.routes import router as api_keys_router
 from app.fraud.routes import router as fraud_router
 from app.monitoring.routes import router as monitoring_router
 from app.models import User
+from app.billing.routes import router as billing_router
 
 app = FastAPI(title="AIaaS Platform API")
 app.add_middleware(
@@ -37,3 +38,6 @@ async def read_current_user(current_user: User = Depends(get_current_user)):
         "org_id": str(current_user.org_id),
         "role": current_user.role,
     }
+
+# ... existing app.include_router(...) calls ...
+app.include_router(billing_router)
