@@ -117,4 +117,3 @@ No frontend or backend application code needs to change.
 
 ## License
 
-TBD
