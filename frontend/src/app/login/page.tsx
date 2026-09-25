@@ -45,16 +45,20 @@ export default function LoginPage() {
 
         {/* Brand */}
         <div className="text-center mb-8">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-400 text-black font-bold text-lg">
-            AI
-          </div>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center">
+  <img
+    src="/mindora-icon.png"
+    alt="Mindora"
+    className="h-12 w-12 object-contain"
+  />
+</div>
 
           <h1 className="text-2xl font-semibold tracking-tight">
-            AIaaS Platform
+            Mindora
           </h1>
 
           <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">
-            Control Plane
+            AIaaS Platform
           </p>
         </div>
 
