@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth, ApiError } from "@/lib/auth-context";
@@ -138,6 +138,18 @@ export default function LoginPage() {
               {isLoading ? "Signing in..." : "Sign in"}
             </button>
           </div>
+          
+          <div className="border-t border-slate-800 px-6 py-4 text-center">
+  <p className="text-sm text-slate-500">
+    Don't have an account?{" "}
+    <Link
+      href="/register"
+      className="font-medium text-cyan-400 hover:text-cyan-300"
+    >
+      Sign up
+    </Link>
+  </p>
+</div>
 
           {/* Footer */}
           <div className="border-t border-slate-800 px-6 py-4">

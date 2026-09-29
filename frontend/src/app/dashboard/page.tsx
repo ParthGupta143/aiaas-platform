@@ -1,21 +1,3 @@
-// "use client";
-
-// import { ProtectedRoute } from "@/components/ProtectedRoute";
-// import { useAuth } from "@/lib/auth-context";
-
-// export default function DashboardPage() {
-//   const { user } = useAuth();
-
-//   return (
-//     <ProtectedRoute>
-//       <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
-//       <p className="text-label">
-//   Welcome back, <span className="text-value">{user?.email}</span>.
-// </p>
-//     </ProtectedRoute>
-//   );
-// }
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -78,10 +60,6 @@ export default function DashboardPage() {
             <p className="mt-2 text-sm text-label">
   Here's what's happening across your AI infrastructure.
 </p>
-
-            <p className="mt-2 text-sm text-label">
-              Here&apos;s what&apos;s happening across your AI infrastructure.
-            </p>
           </div>
 
           <Link

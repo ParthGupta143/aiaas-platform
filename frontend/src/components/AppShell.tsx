@@ -84,16 +84,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="px-5 py-5 border-b border-border">
           <Link href="/dashboard" className="block">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-md bg-accent text-black flex items-center justify-center font-bold text-sm">
-                AI
-              </div>
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center">
+  <img
+    src="/mindora-icon.png"
+    alt="Mindora"
+    className="h-15 w-15 object-contain"
+  />
+</div>
 
               <div>
                 <div className="font-semibold text-value tracking-tight">
-                  AIaaS Platform
+                  Mindora
                 </div>
                 <div className="text-[10px] uppercase tracking-[0.18em] text-muted mt-0.5">
-                  Control Plane
+                  AIaaS Platform
                 </div>
               </div>
             </div>
