@@ -38,7 +38,7 @@ database_url = str(settings.DATABASE_URL).replace(
 
 config.set_main_option(
     "sqlalchemy.url",
-    database_url,
+    database_url.replace("%","%%")
 )
 
 
