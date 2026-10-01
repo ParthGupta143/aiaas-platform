@@ -37,5 +37,8 @@ async def predict_fraud(payload: FraudPredictionInput, request_id: str) -> dict:
         raise MLServiceError("ML service timed out")
     except httpx.HTTPStatusError as e:
         raise MLServiceError(f"ML service returned an error: {e.response.status_code}")
-    except httpx.RequestError:
-        raise MLServiceError("ML service is unreachable")
+    except httpx.HTTPStatusError as e:
+        print(f"ML SERVICE HTTP ERROR: {e.response.status_code} - {e.response.text}")
+    raise MLServiceError(
+        f"ML service returned an error: {e.response.status_code}"
+    )
