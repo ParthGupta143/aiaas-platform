@@ -1,5 +1,5 @@
 "use client";
-
+import { api } from "@/lib/api";
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,44 +24,23 @@ export default function RegisterPage() {
     }
 
     setIsLoading(true);
+try {
+  await api.post("/auth/register", {
+    email,
+    password,
+    organization_name: organizationName,
+  });
 
-    try {
-      const response = await fetch("http://localhost:8000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          organization_name: organizationName,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-  const message =
-    typeof data.detail === "string"
-      ? data.detail
-      : Array.isArray(data.detail)
-        ? data.detail.map((err: any) => err.msg).join(", ")
-        : "Registration failed.";
-
-  throw new Error(message);
-}
-
-      router.push("/login");
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again."
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  router.push("/login");
+} catch (err) {
+  setError(
+    err instanceof Error
+      ? err.message
+      : "Something went wrong. Please try again."
+  );
+} finally {
+  setIsLoading(false);
+}}
 
   return (
     <main className="min-h-screen bg-[#080b0f] text-white flex items-center justify-center px-6">
@@ -219,4 +198,4 @@ export default function RegisterPage() {
       </div>
     </main>
   );
-}
+  }

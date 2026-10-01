@@ -1,5 +1,6 @@
 import time
 import uuid
+from sqlalchemy import select
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.session import get_db
@@ -67,8 +68,14 @@ async def check_fraud(
 async def test_fraud(
     payload: FraudCheckRequest,
     current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
 ):
     request_id = str(uuid.uuid4())
+
+    start = time.perf_counter()
+    status_code = 200
+    model_version = None
+
     try:
         result = await predict_fraud(
             FraudPredictionInput(
@@ -80,7 +87,46 @@ async def test_fraud(
             ),
             request_id=request_id,
         )
+
+        model_version = result.get("model_version")
+
     except MLServiceError as e:
-        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(e))
+        status_code = 502
+        latency_ms = (time.perf_counter() - start) * 1000
+
+        # Log failed request
+        db.add(
+            RequestLog(
+                org_id=current_user.org_id,
+                api_key_id=None,  # DON'T use this if column is non-nullable
+                service="fraud",
+                model_version=None,
+                status_code=status_code,
+                latency_ms=latency_ms,
+            )
+        )
+
+        await db.commit()
+
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=str(e),
+        )
+
+    latency_ms = (time.perf_counter() - start) * 1000
+
+    # Log successful request
+    db.add(
+        RequestLog(
+            org_id=current_user.org_id,
+            api_key_id=None,
+            service="fraud",
+            model_version=model_version,
+            status_code=status_code,
+            latency_ms=latency_ms,
+        )
+    )
+
+    await db.commit()
 
     return FraudCheckResponse(**result)

@@ -29,7 +29,14 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_db)):
     except AuthError as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
     return TokenResponse(access_token=token)
-
+@router.get("/me")
+async def get_me(
+    current_user: User = Depends(get_current_user),
+):
+    return {
+        "id": str(current_user.id),
+        "email": current_user.email,
+    }
 @router.post("/change-password", status_code=status.HTTP_204_NO_CONTENT)
 async def change_password_route(
     payload: ChangePasswordRequest,
