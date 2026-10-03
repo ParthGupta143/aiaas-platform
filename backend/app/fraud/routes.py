@@ -72,6 +72,21 @@ async def test_fraud(
 ):
     request_id = str(uuid.uuid4())
 
+    # Find an API key belonging to the user's organization
+    result = await db.execute(
+        select(ApiKey)
+        .where(ApiKey.org_id == current_user.org_id)
+        .limit(1)
+    )
+
+    api_key = result.scalar_one_or_none()
+
+    if api_key is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No API key found for this organization",
+        )
+
     start = time.perf_counter()
     status_code = 200
     model_version = None
@@ -98,7 +113,7 @@ async def test_fraud(
         db.add(
             RequestLog(
                 org_id=current_user.org_id,
-                api_key_id=None,  # DON'T use this if column is non-nullable
+                api_key_id=api_key.id,
                 service="fraud",
                 model_version=None,
                 status_code=status_code,
@@ -119,7 +134,7 @@ async def test_fraud(
     db.add(
         RequestLog(
             org_id=current_user.org_id,
-            api_key_id=None,
+            api_key_id=api_key.id,
             service="fraud",
             model_version=model_version,
             status_code=status_code,
