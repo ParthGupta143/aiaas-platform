@@ -14,7 +14,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:3001",
-        "https://aiaas-platform-beta.vercel.app",
+        "https://mindora-ai-beta.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
